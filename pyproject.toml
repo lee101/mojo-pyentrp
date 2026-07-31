@@ -1,0 +1,25 @@
+[project]
+name = "mojo-pyentrp"
+version = "0.1.0"
+description = "Sample and permutation entropy from pyentrp, implemented in Mojo"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Lee Penkman", email = "leepenkman@gmail.com" }]
+dependencies = ["numpy"]
+
+[project.optional-dependencies]
+dev = ["pytest", "pyentrp==2.1.0"]
+
+[project.urls]
+Homepage = "https://github.com/lee101/mojo-pyentrp"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "python" }
+
+[tool.setuptools.packages.find]
+where = ["python"]
