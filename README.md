@@ -71,20 +71,22 @@ best of three runs on identical contiguous float64 data.
 
 | measure | mojo-pyentrp | pyentrp 2.1.0 | result |
 | --- | ---: | ---: | ---: |
-| `sample_entropy` random m=4 (6k) | 39.54 ms | 502.59 ms | 12.71x faster |
-| `sample_entropy` periodic m=4 (4k) | 15.81 ms | 449.20 ms | 28.42x faster |
-| `permutation_entropy` order=3 (1M) | 5.26 ms | 214.09 ms | 40.68x faster |
-| `permutation_entropy` order=5 (1M) | 29.62 ms | 398.72 ms | 13.46x faster |
-| `weighted_permutation_entropy` order=3 (200k) | 8.61 ms | 361.97 ms | 42.06x faster |
+| `sample_entropy` random m=4 (6k) | 40.56 ms | 641.61 ms | 15.82x faster |
+| `sample_entropy` periodic m=4 (4k) | 15.48 ms | 393.39 ms | 25.41x faster |
+| `permutation_entropy` order=3 (1M) | 4.96 ms | 145.50 ms | 29.36x faster |
+| `permutation_entropy` order=5 (1M) | 21.62 ms | 1318.99 ms | 61.00x faster |
+| `weighted_permutation_entropy` order=3 (200k) | 6.19 ms | 386.35 ms | 62.45x faster |
 
 The largest gain is weighted permutation entropy: pyentrp groups every motif
 through a Python dictionary, while Mojo accumulates weights in a native
 open-addressed table. Sample entropy benefits from a fused pairwise prefix
 scan that avoids repeatedly allocating NumPy search and hit arrays.
 
-No GPU path is provided. These kernels make irregular histogram updates and
-the benchmarked CPU implementation is already faster than upstream, so this
-port stays deliberately small and CPU-only.
+No GPU path is provided. These kernels have effective arithmetic intensity
+below roughly two floating-point operations per byte and make irregular
+histogram updates; transfer and launch overhead would dominate. The benchmarked
+CPU implementation is already faster than upstream, so this port stays
+deliberately small and CPU-only.
 
 ## How it works
 
