@@ -136,9 +136,9 @@ def permutation_counts(
             var ranks = SIMD[DType.int64, W](0)
             var bit = Int64(1)
             for i in range(order - 1):
-                var left_values = x.load[width=W](start + i * delay)
+                var left_values = x.unsafe_load[width=W](start + i * delay)
                 for j in range(i + 1, order):
-                    var right_values = x.load[width=W](
+                    var right_values = x.unsafe_load[width=W](
                         start + j * delay
                     )
                     var invalid = (
